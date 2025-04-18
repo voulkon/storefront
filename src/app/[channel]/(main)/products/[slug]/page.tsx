@@ -1,7 +1,7 @@
 import edjsHTML from "editorjs-html";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
-import { type ResolvingMetadata, type Metadata } from "next";
+import { type Metadata } from "next";
 import xss from "xss";
 import { invariant } from "ts-invariant";
 import { type WithContext, type Product } from "schema-dts";
@@ -15,11 +15,15 @@ import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
 export async function generateMetadata(
-	props: {
-		params: Promise<{ slug: string; channel: string }>;
-		searchParams: Promise<{ variant?: string }>;
-	},
-	parent: ResolvingMetadata,
+
+	{
+		params,
+		searchParams,
+	}: {
+		params: { slug: string; channel: string };
+		searchParams: { variant?: string };
+	}
+
 ): Promise<Metadata> {
 	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
 
@@ -40,7 +44,7 @@ export async function generateMetadata(
 	const productNameAndVariant = variantName ? `${productName} - ${variantName}` : productName;
 
 	return {
-		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
+		title: `${product.name} | ${product.seoTitle || "Reyes Handmade Jewels"}`,
 		description: product.seoDescription || productNameAndVariant,
 		alternates: {
 			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
@@ -132,8 +136,10 @@ export default async function Page(props: {
 			? formatMoneyRange({
 					start: product?.pricing?.priceRange?.start?.gross,
 					stop: product?.pricing?.priceRange?.stop?.gross,
-				})
-			: "";
+
+			})
+		  : "";
+
 
 	const productJsonLd: WithContext<Product> = {
 		"@context": "https://schema.org",
