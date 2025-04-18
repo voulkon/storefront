@@ -8,7 +8,8 @@ export const metadata = {
 		"Discover unique, artisanal jewelry crafted with passion and precision by Reyes. Each piece is meticulously handmade, combining traditional techniques with contemporary designs to create timeless accessories that tell a story.",
 };
 
-export default async function Page({ params }: { params: { channel: string } }) {
+export default async function Page(props: { params: Promise<{ channel: string }> }) {
+	const params = await props.params;
 	const data = await executeGraphQL(ProductListByCollectionDocument, {
 		variables: {
 			slug: "featured-products",
