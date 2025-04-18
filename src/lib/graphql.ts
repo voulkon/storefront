@@ -61,7 +61,7 @@ export async function executeGraphQL<Result, Variables>(
 
 	// 6) do the request
 	const response = withAuth
-		? await getServerAuthClient().fetchWithAuth(process.env.NEXT_PUBLIC_SALEOR_API_URL, input)
+		? await (await getServerAuthClient()).fetchWithAuth(process.env.NEXT_PUBLIC_SALEOR_API_URL, input)
 		: await fetch(process.env.NEXT_PUBLIC_SALEOR_API_URL, input);
 
 	// 7) debug raw response (non‐prod)
