@@ -11,6 +11,8 @@ services:
     restart: always
     expose:
       - "3000"
+    labels:
+      - "caddy_0.handle_path.0_reverse_proxy={{upstreams 3000}}"
     networks:
       - saleor_network
   # Add more containers below (nginx, postgres, etc.)
