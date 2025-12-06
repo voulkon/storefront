@@ -14,18 +14,11 @@ import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } 
 import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
-export async function generateMetadata(
-
-	{
-		params,
-		searchParams,
-	}: {
-		params: { slug: string; channel: string };
-		searchParams: { variant?: string };
-	}
-
-): Promise<Metadata> {
-	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
+export async function generateMetadata(props: {
+	params: Promise<{ slug: string; channel: string }>;
+	searchParams: Promise<{ variant?: string }>;
+}): Promise<Metadata> {
+	const [params, searchParams] = await Promise.all([props.params, props.searchParams]);
 
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
@@ -64,7 +57,8 @@ export async function generateMetadata(
 	};
 }
 
-export async function generateStaticParams({ params }: { params: { channel: string } }) {
+export async function generateStaticParams(props: { params: Promise<{ channel: string }> }) {
+	const params = await props.params;
 	const { products } = await executeGraphQL(ProductListDocument, {
 		revalidate: 60,
 		variables: { first: 20, channel: params.channel },

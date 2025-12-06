@@ -20,9 +20,9 @@ export default async function CheckoutPage(props: {
 		<div className="min-h-dvh bg-white">
 			<section className="mx-auto flex min-h-dvh max-w-7xl flex-col p-8">
 				<div className="flex items-center font-bold">
-					<a aria-label="homepage" href="/">
+					<Link aria-label="homepage" href="/">
 						Reyes Handmade Jewels
-					</a>
+					</Link>
 				</div>
 				<h1 className="mt-8 text-3xl font-bold text-neutral-900">Checkout</h1>
 
