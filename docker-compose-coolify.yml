@@ -9,7 +9,8 @@ services:
         NEXT_PUBLIC_SALEOR_API_URL: ${NEXT_PUBLIC_SALEOR_API_URL}
         NEXT_PUBLIC_STOREFRONT_URL: ${NEXT_PUBLIC_STOREFRONT_URL}
     restart: always
-    expose: "3000"
+    expose:
+      - "3000"
     networks:
       - saleor_network
   # Add more containers below (nginx, postgres, etc.)
